@@ -59,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 'Welcome Back',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: const Color(0XFF622E2E),
                     ),
               ),
               const SizedBox(height: 8),
@@ -67,7 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
               Text(
                 'Signin to continue',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
+                      color: const Color(0xFFC88686),
                     ),
               ),
               const SizedBox(height: 40),
@@ -76,21 +76,20 @@ class _SignInScreenState extends State<SignInScreen> {
                 controller: _emailController,
                 decoration: InputDecoration(
                   hintText: 'Email',
-                  hintStyle: TextStyle(color: Colors.grey[400]),
+                  hintStyle: TextStyle(color: const Color(0xFFC88686)),
                   filled: true,
                   // Using your specific light grey fill
-                  fillColor: const Color.fromARGB(255, 245, 245, 245), 
+                  fillColor: const Color(0xFFF5DEDE), 
                   
                   // 1. The default border (when not focused)
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
-                  ),
+                    borderSide: const BorderSide(color: const Color(0XFFEAC5C5), width: 2.0),                  ),
 
                   // 2. The border when the user taps on it (Focus)
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFA867FF), width: 2.0), // Using your purple
+                    borderSide: const BorderSide(color: Color.fromARGB(255, 136, 91, 91), width: 2.0), // Using your purple
                   ),
 
                   // 3. The border if there is an error
@@ -112,20 +111,19 @@ class _SignInScreenState extends State<SignInScreen> {
                 style: const TextStyle(fontFamily: 'ClashDisplay'), 
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  hintStyle: TextStyle(color: Colors.grey[400], fontFamily: 'ClashDisplay'),
+                  hintStyle: TextStyle(color: const Color(0xFFC88686), fontFamily: 'ClashDisplay'),
                   filled: true,
-                  fillColor: const Color.fromARGB(255, 245, 245, 245),
+                  fillColor: const Color(0xFFF5DEDE), 
                   
                   // 1. The default border
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
-                  ),
+                    borderSide: const BorderSide(color: const Color(0XFFEAC5C5), width: 2.0),                  ),
 
                   // 2. The border when focused (using your brand purple)
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFA867FF), width: 2.0),
+                    borderSide: const BorderSide(color: Color.fromARGB(255, 136, 91, 91), width: 2.0),
                   ),
 
                   contentPadding: const EdgeInsets.all(16),
@@ -153,7 +151,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Text(
                     'Forgot password',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: const Color(0xFF00BCD4),
+                          color: const Color(0xFF9A1115),
                           fontWeight: FontWeight.w600,
                         ),
                   ),
@@ -169,7 +167,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00BCD4),
+                    backgroundColor: const Color(0xFFD7181D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -178,7 +176,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     'Sign in',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: const Color(0xFFFCF0F0),
                         ),
                   ),
                 ),
@@ -191,7 +189,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   Text(
                     "Don't have an account? ",
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey[600],
+                          color: const Color(0xFF854444),
                         ),
                   ),
                   GestureDetector(
@@ -201,7 +199,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: Text(
                       'Sign up',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: const Color(0xFF00BCD4),
+                            color: const Color(0xFF9A1115),
                             fontWeight: FontWeight.bold,
                           ),
                     ),

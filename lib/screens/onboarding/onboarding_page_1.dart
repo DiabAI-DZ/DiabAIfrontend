@@ -34,21 +34,20 @@ class OnboardingPage1 extends StatelessWidget {
               const SizedBox(height: 50),
               // Title
               Text(
-                'Share Your Voice',
-                
+                'Ditch the Paper Logbook',                
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: const Color(0XFF451C1C),
                     ),
               ),
               const SizedBox(height: 16),
               // Description
               Text(
-                'Take quick, engaging surveys tailored to your interests and help shape the future of top brands.',
+                'Simply snap a photo of your glucometer screen. Our AI instantly reads and saves your results no manual entry needed.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
+                      color: const Color(0XFFA86262),
                       height: 1.5,
                     ),
               ),

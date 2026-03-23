@@ -23,8 +23,8 @@ class OnboardingPage3 extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/images/onboardingPageThreeImage.svg',
-                        width: 450,
-                        height: 450,
+                        width: 400,
+                        height: 400,
                         
                       ),
                     ],
@@ -34,20 +34,20 @@ class OnboardingPage3 extends StatelessWidget {
               const SizedBox(height: 50),
               // Title
               Text(
-                'Cash Out & Enjoy',
+                'Smart Health Insights',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: const Color(0XFF451C1C),
                     ),
               ),
               const SizedBox(height: 16),
               // Description
               Text(
-                'Redeem your points for instant cash, gift cards, or exclusive perks. Your rewards, your way.',
+                'Turn raw numbers into clear charts. Get personalized alerts and easily share an accurate history with your doctor.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
+                      color: const Color(0XFFA86262),
                       height: 1.5,
                     ),
               ),

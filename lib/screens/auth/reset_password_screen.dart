@@ -63,7 +63,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 'Reset Password',
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: const Color(0XFF622E2E),
                     ),
               ),
               const SizedBox(height: 8),
@@ -72,7 +72,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 'You can change your password',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
+                      color: const Color(0xFFC88686),
                     ),
               ),
               const SizedBox(height: 40),
@@ -84,20 +84,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 style: const TextStyle(fontFamily: 'ClashDisplay'), 
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  hintStyle: TextStyle(color: Colors.grey[400], fontFamily: 'ClashDisplay'),
+                  hintStyle: TextStyle(color: const Color(0xFFC88686), fontFamily: 'ClashDisplay'),
                   filled: true,
-                  fillColor: const Color.fromARGB(255, 245, 245, 245),
+                  fillColor: const Color(0xFFF5DEDE), 
                   
                   // 1. The default border
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
-                  ),
+                    borderSide: const BorderSide(color: const Color(0XFFEAC5C5), width: 2.0),                  ),
 
                   // 2. The border when focused (using your brand purple)
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFA867FF), width: 2.0),
+                    borderSide: const BorderSide(color: Color.fromARGB(255, 136, 91, 91), width: 2.0),
                   ),
 
                   contentPadding: const EdgeInsets.all(16),
@@ -123,21 +122,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 textInputAction: TextInputAction.done, // Closes keyboard on finish
                 decoration: InputDecoration(
                   hintText: 'Confirm Password',
-                  hintStyle: TextStyle(color: Colors.grey[400], fontFamily: 'ClashDisplay'),
+                  hintStyle: TextStyle(color: const Color(0xFFC88686), fontFamily: 'ClashDisplay'),
                   filled: true,
-                  fillColor: const Color.fromARGB(255, 245, 245, 245),
+                  fillColor: const Color(0xFFF5DEDE), 
                   
                   // Default state
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
-                  ),
+                    borderSide: const BorderSide(color: const Color(0XFFEAC5C5), width: 2.0),                  ),
 
                   // Focused state (using your purple)
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFA867FF), width: 2.0),
-                  ),
+                    borderSide: const BorderSide(color: Color.fromARGB(255, 136, 91, 91), width: 2.0),                  ),
 
                   contentPadding: const EdgeInsets.all(16),
                   suffixIcon: IconButton(
@@ -171,23 +168,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   counterText: "", // Hides the character counter at the bottom
                   hintText: '000000',
                   hintStyle: TextStyle(
-                    color: Colors.grey[400], 
+                    color: const Color(0xFFC88686), 
                     fontFamily: 'ClashDisplay',
                     letterSpacing: 8.0,
                   ),
                   filled: true,
-                  fillColor: const Color.fromARGB(255, 245, 245, 245),
+                  fillColor: const Color(0xFFF5DEDE), 
                   
                   // Default border
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
-                  ),
+                    borderSide: const BorderSide(color: const Color(0XFFEAC5C5), width: 2.0),                  ),
 
                   // Focused border (your brand purple)
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFFA867FF), width: 2.0),
+                    borderSide: const BorderSide(color: Color.fromARGB(255, 136, 91, 91), width: 2.0),
                   ),
 
                   contentPadding: const EdgeInsets.all(16),
@@ -203,7 +199,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     Navigator.pushReplacementNamed(context, '/sign-in');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00BCD4),
+                    backgroundColor: const Color(0xFFD7181D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -212,7 +208,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     'Reset Password',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: const Color(0xFFFCF0F0),
                         ),
                   ),
                 ),

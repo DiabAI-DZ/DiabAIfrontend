@@ -33,20 +33,20 @@ class OnboardingPage2 extends StatelessWidget {
               const SizedBox(height: 50),
               // Title
               Text(
-                'Earn Real Rewards',
+                'Analyze Your Meals',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: const Color(0XFF451C1C),
                     ),
               ),
               const SizedBox(height: 16),
               // Description
               Text(
-                'Watch your balance grow with every completed survey. Collect points effortlessly as you share your opinions.',
+                'Take a picture of your plate to assess its impact. DiabIA helps you understand your food to better predict your blood sugar levels.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey[600],
+                      color: const Color(0XFFA86262),
                       height: 1.5,
                     ),
               ),
