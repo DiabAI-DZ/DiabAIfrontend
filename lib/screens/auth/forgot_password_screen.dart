@@ -82,7 +82,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   // 1. The default border (when not focused)
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: const Color(0XFFEAC5C5), width: 2.0),
+                    borderSide: const BorderSide(color: Color(0XFFEAC5C5), width: 2.0),
                   ),
 
                   // 2. The border when the user taps on it (Focus)
