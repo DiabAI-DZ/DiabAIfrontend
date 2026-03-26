@@ -113,6 +113,100 @@ class AuthApi {
     );
   }
 
+  Future<Map<String, dynamic>> sendResetOtp({required String email}) async {
+    final url = Uri.parse('$baseUrl/api/auth/send-reset-otp');
+
+    http.Response response;
+    try {
+      response = await http
+          .post(
+            url,
+            headers: const {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({
+              'email': email,
+            }),
+          )
+          .timeout(const Duration(seconds: 12));
+    } on TimeoutException {
+      throw AuthApiException('Request timed out. Check backend connection.');
+    } on SocketException {
+      throw AuthApiException('Cannot reach server. Check API base URL.');
+    } on http.ClientException catch (e) {
+      throw AuthApiException('Network error: ${e.message}');
+    }
+
+    final Map<String, dynamic> body = _tryDecodeJson(response.body);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return body;
+    }
+
+    final message = body['error']?.toString() ??
+        body['message']?.toString() ??
+        'Failed to send OTP (status ${response.statusCode}).';
+    final rawBody = response.body;
+    throw AuthApiException(
+      message,
+      statusCode: response.statusCode,
+      body: body,
+      rawBody: rawBody.isEmpty ? null : rawBody,
+    );
+  }
+
+  Future<Map<String, dynamic>> resetPassword({
+    required String email,
+    required String otp,
+    required String password,
+    required String passwordConfirmation,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/auth/reset-password');
+
+    http.Response response;
+    try {
+      response = await http
+          .post(
+            url,
+            headers: const {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({
+              'email': email,
+              'otp': otp,
+              'password': password,
+              'password_confirmation': passwordConfirmation,
+            }),
+          )
+          .timeout(const Duration(seconds: 12));
+    } on TimeoutException {
+      throw AuthApiException('Request timed out. Check backend connection.');
+    } on SocketException {
+      throw AuthApiException('Cannot reach server. Check API base URL.');
+    } on http.ClientException catch (e) {
+      throw AuthApiException('Network error: ${e.message}');
+    }
+
+    final Map<String, dynamic> body = _tryDecodeJson(response.body);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return body;
+    }
+
+    final message = body['error']?.toString() ??
+        body['message']?.toString() ??
+        'Password reset failed (status ${response.statusCode}).';
+    final rawBody = response.body;
+    throw AuthApiException(
+      message,
+      statusCode: response.statusCode,
+      body: body,
+      rawBody: rawBody.isEmpty ? null : rawBody,
+    );
+  }
+
   Map<String, dynamic> _tryDecodeJson(String payload) {
     try {
       final decoded = jsonDecode(payload);

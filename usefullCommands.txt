@@ -39,3 +39,7 @@ docker compose exec app php artisan jwt:secret
 
 // to use the toast : 
 Use AppToast.show(context, 'Message', type: AppToastType.success) (or error, info).
+
+
+//mailpit port :
+http://localhost:8025

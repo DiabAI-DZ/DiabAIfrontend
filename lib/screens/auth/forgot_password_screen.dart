@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../services/auth_api.dart';
+import '../../widgets/app_toast.dart';
+
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -10,6 +13,16 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   late TextEditingController _emailController;
+  bool _isLoading = false;
+  final RegExp _emailRegex =
+      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$');
+
+  final AuthApi _authApi = AuthApi(
+    baseUrl: const String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: 'http://10.0.2.2:8000',
+    ),
+  );
 
   @override
   void initState() {
@@ -21,6 +34,70 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+  bool _isValidEmail(String value) {
+    return _emailRegex.hasMatch(value);
+  }
+
+  Future<void> _sendOtp() async {
+    final email = _emailController.text.trim();
+
+    if (email.isEmpty) {
+      AppToast.show(
+        context,
+        'Please enter your email address.',
+        type: AppToastType.error,
+      );
+      return;
+    }
+
+    if (!_isValidEmail(email)) {
+      AppToast.show(
+        context,
+        'Please enter a valid email address.',
+        type: AppToastType.error,
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _authApi.sendResetOtp(email: email);
+      if (!mounted) return;
+      AppToast.show(
+        context,
+        'OTP sent. Check your email or Mailpit inbox.',
+        type: AppToastType.success,
+      );
+      Navigator.pushNamed(
+        context,
+        '/reset-password',
+        arguments: email,
+      );
+    } on AuthApiException catch (e) {
+      if (!mounted) return;
+      AppToast.show(
+        context,
+        e.message.isEmpty ? e.toString() : e.message,
+        type: AppToastType.error,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      AppToast.show(
+        context,
+        'Unexpected error: ${e.toString()}',
+        type: AppToastType.error,
+      );
+    } finally {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -107,22 +184,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/reset-password');
-                  },
+                  onPressed: _isLoading ? null : _sendOtp,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFD7181D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: Text(
-                    'Send otp',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFFFCF0F0),
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            color: Color(0xFFFCF0F0),
+                          ),
+                        )
+                      : Text(
+                          'Send otp',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFFFCF0F0),
+                              ),
                         ),
-                  ),
                 ),
               ),
               const SizedBox(height: 20),
