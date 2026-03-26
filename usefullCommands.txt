@@ -1,0 +1,37 @@
+//user creation example inside of php artisan tinker
+> User::create([
+  'name' => 'Testing',
+  'email' => 'test1@gmail.com',
+  'password' => Hash::make('Test@1234'),
+  'email_verified_at' => now(),
+]);
+// the according example output after success
+= App\Models\User {#5462
+    name: "Testing",
+    email: "test1@gmail.com",
+    #password: "$2y$12$q2wA.BGMTq1Bn7wGPI03A.jaxEz64AOsewuWg7o9bvs8pvyU/tKFm",
+    email_verified_at: "2026-03-26 16:41:40",
+    updated_at: "2026-03-26 16:41:40",
+    created_at: "2026-03-26 16:41:40",
+    id: 3,
+  }
+3
+> 
+
+
+Linux:
+flutter run --dart-define=API_BASE_URL=http://localhost:8000
+
+Android emulator:
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000
+
+Real device:
+flutter run --dart-define=API_BASE_URL=http://192.168.1.8:8000
+//the lan ip being the wlan ip of the pc at the moments ex : http://192.168.1.8:8000
+
+
+//clearing the config cache for the backend 
+docker compose exec app php artisan config:clear
+
+//to initiate the jwt secret :
+docker compose exec app php artisan jwt:secret

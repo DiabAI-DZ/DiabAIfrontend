@@ -1,0 +1,96 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/http.dart' as http;
+
+class AuthApi {
+  AuthApi({required String baseUrl}) : baseUrl = _normalizeBaseUrl(baseUrl);
+
+  final String baseUrl;
+
+  static String _normalizeBaseUrl(String value) {
+    var url = value.trim();
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'http://$url';
+    }
+    if (url.endsWith('/')) {
+      url = url.substring(0, url.length - 1);
+    }
+    return url;
+  }
+
+  Future<Map<String, dynamic>> login({
+    required String email,
+    required String password,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/auth/login');
+
+    http.Response response;
+    try {
+      response = await http
+          .post(
+            url,
+            headers: const {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({
+              'email': email,
+              'password': password,
+            }),
+          )
+          .timeout(const Duration(seconds: 12));
+    } on TimeoutException {
+      throw AuthApiException('Request timed out. Check backend connection.');
+    } on SocketException {
+      throw AuthApiException('Cannot reach server. Check API base URL.');
+    } on http.ClientException catch (e) {
+      throw AuthApiException('Network error: ${e.message}');
+    }
+
+    final Map<String, dynamic> body = _tryDecodeJson(response.body);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return body;
+    }
+
+    final message = body['error']?.toString() ??
+      body['message']?.toString() ??
+      'Login failed (status ${response.statusCode}).';
+    final rawBody = response.body;
+    throw AuthApiException(
+      message,
+      statusCode: response.statusCode,
+      body: body,
+      rawBody: rawBody.isEmpty ? null : rawBody,
+    );
+  }
+
+  Map<String, dynamic> _tryDecodeJson(String payload) {
+    try {
+      final decoded = jsonDecode(payload);
+      if (decoded is Map<String, dynamic>) {
+        return decoded;
+      }
+    } catch (_) {}
+    return <String, dynamic>{};
+  }
+}
+
+class AuthApiException implements Exception {
+  AuthApiException(this.message, {this.statusCode, this.body, this.rawBody});
+
+  final String message;
+  final int? statusCode;
+  final Map<String, dynamic>? body;
+  final String? rawBody;
+
+  @override
+  String toString() {
+    if (rawBody != null && rawBody!.isNotEmpty) {
+      return '$message\n$rawBody';
+    }
+    return message;
+  }
+}
