@@ -35,3 +35,7 @@ docker compose exec app php artisan config:clear
 
 //to initiate the jwt secret :
 docker compose exec app php artisan jwt:secret
+
+
+// to use the toast : 
+Use AppToast.show(context, 'Message', type: AppToastType.success) (or error, info).

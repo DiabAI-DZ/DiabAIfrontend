@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../services/auth_api.dart';
+import '../../widgets/app_toast.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -13,6 +15,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   bool _obscurePassword = true;
+  bool _isLoading = false;
+  final RegExp _emailRegex =
+      RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$');
+
+  
+  //defining a default value (for the android emulator)
+  //for the real device we need to get the local ip of the host machine that is hosting the backend
+  final AuthApi _authApi = AuthApi(
+    baseUrl: const String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: 'http://10.0.2.2:8000',
+    ),
+  );
 
   @override
   void initState() {
@@ -30,6 +45,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+  bool _isValidEmail(String value) {
+    return _emailRegex.hasMatch(value);
+  }
+
+  Future<void> _signUp() async {
+    final name = _fullNameController.text;
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty || name.isEmpty) {
+      AppToast.show(
+        context,
+        'All fields are required.',
+        type: AppToastType.error,
+      );
+      return;
+    }
+
+    if (!_isValidEmail(email)) {
+      AppToast.show(
+        context,
+        'Please enter a valid email address.',
+        type: AppToastType.error,
+      );
+      return;
+    }
+    //starting the loading animation before the api call
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _authApi.register(name: name, email: email, password: password);
+      if (!mounted) return;
+      AppToast.show(
+        context,
+        'Account created successfully. A verification email has been sent.',
+        type: AppToastType.success,
+      );
+      await Future.delayed(const Duration(milliseconds: 700));
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/sign-in');
+    } on AuthApiException catch (e) {
+      if (!mounted) return;
+      AppToast.show(
+        context,
+        e.message.isEmpty ? e.toString() : e.message,
+        type: AppToastType.error,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      AppToast.show(
+        context,
+        'Unexpected error: ${e.toString()}',
+        type: AppToastType.error,
+      );
+    } finally {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,16 +257,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/home');
-                  },
+                  onPressed: _isLoading ? null : _signUp,// the method call happens here 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFD7181D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: Text(
+                  child: _isLoading//defining the shape of the loading animation using the ready assets
+                      ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            color: Color(0xFFFCF0F0),
+                          ),
+                        )
+                      : Text(
                     'Sign up',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,

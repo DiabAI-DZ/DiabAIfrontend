@@ -66,6 +66,52 @@ class AuthApi {
       rawBody: rawBody.isEmpty ? null : rawBody,
     );
   }
+  Future<Map<String, dynamic>> register({name, email, password}) async {
+    //the base url changes depeding on the platform so it is a good practice to implement it this way
+    final url = Uri.parse('$baseUrl/api/auth/register');
+
+    http.Response response;
+    try {
+      response = await http
+          .post(
+            url,
+            headers: const {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: jsonEncode({
+              'name': name,
+              'email': email,
+              'password': password,
+            }),
+          )
+          .timeout(const Duration(seconds: 12));
+          //usefull cases to debug the connection errors
+    } on TimeoutException {
+      throw AuthApiException('Request timed out. Check backend connection.');
+    } on SocketException {
+      throw AuthApiException('Cannot reach server. Check API base URL.');
+    } on http.ClientException catch (e) {
+      throw AuthApiException('Network error: ${e.message}');
+    }
+
+    final Map<String, dynamic> body = _tryDecodeJson(response.body);
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return body;
+    }
+
+    final message = body['error']?.toString() ??
+      body['message']?.toString() ??
+      'Register failed (status ${response.statusCode}).';
+    final rawBody = response.body;
+    throw AuthApiException(
+      message,
+      statusCode: response.statusCode,
+      body: body,
+      rawBody: rawBody.isEmpty ? null : rawBody,
+    );
+  }
 
   Map<String, dynamic> _tryDecodeJson(String payload) {
     try {
